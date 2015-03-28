@@ -3,11 +3,11 @@ require 'time'
 
 def self.check(string)
   string = string.gsub("Searched for ","")
-  preposition = [" to "," out "," a "," is "," an "," and "," on "," I "," i "," with "," the "," in "," of ","for","View additional Web & App Activity","|",".","&",":"]
+  preposition = [" to "," out "," a "," is "," an "," and "," on "," I "," i "," with "," the "," in "," of ","for","View additional Web & App Activity","|","&"]
   time = ["pm","am"]
   preposition.each do |i|
     if string.include? i
-      string = string.gsub(i, "")
+      string = string.gsub(i, " ")
     end
   end
   time.each do |t|
@@ -42,47 +42,39 @@ sleep(2)
 div = driver.find_element(:name, 'edit').find_elements(:xpath, './div')
 1.upto(div.length - 1){|i|
       text = div[i].text
-      p text
       result = check(text)
-      p result
-      result1 = result.gsub!(/[^0-9a-z ]/i, '')
+      result1 = result.gsub!(/[^0-9a-z ]/i, ' ')
       if result1.nil?
-        p result
         strings.concat(result)
       else
-        p result1
         strings.concat(result1)
       end
     }
 driver.find_elements(:class, 'kd-buttonbar')[2].find_element(:xpath, './a').click
 
 
-while result_time != "Yesterday" do
-#1.times{
+#while result_time != "Yesterday" do
+5.times{
     sleep(2)
     div = driver.find_element(:name, 'edit').find_elements(:xpath, './div')
     1.upto(div.length - 1){|i|
       text = div[i].text
-      p text
       result = check(text)
-      p result
-      result = result.gsub!(/[^0-9a-z ]/i, '')
+      result1 = result.gsub!(/[^0-9a-z ]/i, ' ')
       if result1.nil?
         if result == "Yesterday"
           result_time = result
         else
-        p result
         strings.concat(result)
         end
       else
-        p result1
         strings.concat(result1)
       end
     }
     p '////////////////////'
     driver.find_elements(:class, 'kd-buttonbar')[2].find_elements(:xpath, './a')[1].click
-end
-#}
+#end
+}
 words = strings.split(' ')
 frequency = Hash.new(0)
 words.each { |word| frequency[word.downcase] += 1 }

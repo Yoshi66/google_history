@@ -53,14 +53,15 @@ div = driver.find_element(:name, 'edit').find_elements(:xpath, './div')
 driver.find_elements(:class, 'kd-buttonbar')[2].find_element(:xpath, './a').click
 
 
-#while result_time != "Yesterday" do
-5.times{
+while result_time != "Yesterday" do
+#5.times{
     sleep(2)
     div = driver.find_element(:name, 'edit').find_elements(:xpath, './div')
     1.upto(div.length - 1){|i|
       text = div[i].text
       result = check(text)
       result1 = result.gsub!(/[^0-9a-z ]/i, ' ')
+      p result1
       if result1.nil?
         if result == "Yesterday"
           result_time = result
@@ -73,8 +74,8 @@ driver.find_elements(:class, 'kd-buttonbar')[2].find_element(:xpath, './a').clic
     }
     p '////////////////////'
     driver.find_elements(:class, 'kd-buttonbar')[2].find_elements(:xpath, './a')[1].click
-#end
-}
+end
+#}
 words = strings.split(' ')
 frequency = Hash.new(0)
 words.each { |word| frequency[word.downcase] += 1 }
